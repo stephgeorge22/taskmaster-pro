@@ -13,7 +13,6 @@ var createTask = function(taskText, taskDate, taskList) {
   // append span and p element to parent li
   taskLi.append(taskSpan, taskP);
 
-
   // append to ul list on the page
   $("#list-" + taskList).append(taskLi);
 };
@@ -45,7 +44,9 @@ var saveTasks = function() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+// enable draggable/sortable feature on list-group elements
 $(".card .list-group").sortable({
+  // enable dragging across lists
   connectWith: $(".card .list-group"),
   scroll: false,
   tolerance: "pointer",
@@ -72,13 +73,13 @@ $(".card .list-group").sortable({
       // add task data to the tep array as an object
       tempArr.push({
         text: $(this)
-        .find("p")
-        .text()
-        .trim(),
-      date: $(this)
-        .find("span")
-        .text()
-        .trim()
+          .find("p")
+          .text()
+          .trim(),
+        date: $(this)
+          .find("span")
+          .text()
+          .trim()
       });
     });
 
@@ -88,7 +89,7 @@ $(".card .list-group").sortable({
       .replace("list-", "");
 
     // update array on tasks object and save
-    task[arrName] = tempArr;
+    tasks[arrName] = tempArr;
     saveTasks();
   }, 
   stop: function(event) {
@@ -101,13 +102,12 @@ $("#trash").droppable({
   tolerance: "touch",
   drop: function(event, ui) {
     ui.draggable.remove();
-    console.log("drop");
   },
   over: function(event, ui) {
-    console.log("over");
+    console.log(ui);
   },
   out: function(event, ui) {
-    console.log("out");
+    console.log(ui);
   }
 });
 
